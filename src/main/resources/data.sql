@@ -1,0 +1,4 @@
+insert into USER(ID, NAME, GENRE, ID_NUMBER, CITY, STATE, STREET_ADDRESS, CELL_PHONE, PASSWORD, USERNAME) values(1, 'Jack Bauer', 'MALE', '12345', 'Campbell', 'Nova York', 'Street...', '88887777', '$2a$06$nRxLXDWvyw2wZlnJlHc0kuDaXq0mrndrNME3/uwDu2GRQx/3yOr4a', 'admin');
+insert into USER(ID, NAME, GENRE, ID_NUMBER, CITY, STATE, STREET_ADDRESS, CELL_PHONE, PASSWORD, USERNAME) values(2, 'Sarah Connor', 'FEMALE', '54321', 'Curitiba', 'Parana', 'Street...', '99993333', '$2a$06$C/MkIZjwa/UGAPYqnbKIB.BBs/otmZT8Bfas6kLkL54Yev7XQ28DO', 'augusto');
+insert into LIBRARY_ROLE(LIBRARY_USER_ID, ROLE) values(1, 'LIBRARIAN');
+insert into LIBRARY_ROLE(LIBRARY_USER_ID, ROLE) values(2, 'READER');

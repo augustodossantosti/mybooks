@@ -1,0 +1,6 @@
+# Guarda as configurações do JWT
+
+config.security.jwt:
+  tokenExpirationTime: 30 # Minutes
+  tokenIssuer: mybooks-app
+  tokenSigningKey: xm8EV6Hy5RMFK4EEACIDAwQus
