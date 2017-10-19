@@ -5,19 +5,26 @@
  */
 package br.com.mybooks.restapi;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.mybooks.applayer.LibraryFacade;
 import br.com.mybooks.domain.items.Category;
@@ -53,10 +60,29 @@ public class ItemController {
 		return ItemWrapper.toWrapper(libraryFacade.searchItemById(id));
 	}
 	
-	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void registerItem(@RequestBody final ItemWrapper itemInformation) throws LibraryException  {
-		libraryFacade.registerItem(itemInformation.getItem());
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public void registerItem(@RequestPart("item") final ItemWrapper wrapper, 
+			@RequestPart("file") final MultipartFile multipartFile) throws LibraryException, IOException  {
+		
+		libraryFacade.registerItem(wrapper.getItem(), multipartFile);
+	}
+	
+	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ItemWrapper updateItem(@RequestPart("item") final ItemWrapper wrapper, 
+			@RequestPart("file") final MultipartFile multipartFile) throws IOException {
+		
+		return ItemWrapper.toWrapper(libraryFacade.updateItem(wrapper.getItem(), multipartFile));
+	}
+	
+	@GetMapping(path = "/categories")
+	public Map<String, Category> availableCategories() {
+		return Arrays.stream(Category.values()).collect(Collectors.toMap(Category::toString, category -> category));
+	}
+	
+	@GetMapping(path = "/types")
+	public Map<String, Type> availableTypes() {
+		return Arrays.stream(Type.values()).collect(Collectors.toMap(Type::toString, type -> type));
 	}
 	
 	@RequestMapping(path= "/search", method = RequestMethod.POST)

@@ -15,5 +15,22 @@ package br.com.mybooks.domain.items;
  */
 public enum Category {
 	
-	HYSTORY, ROMANCE, ADVENTURE, SCI_FI, BIOGRAPHIES, TECNOLOGY
+	HYSTORY("History"),
+	ROMANCE("Romance"), 
+	ADVENTURE("Adventure"), 
+	SCI_FI("Sci-fi"), 
+	BIOGRAPHIES("Biographies"), 
+	TECNOLOGY("Tecnology");
+	
+	private final String name;
+	
+	private Category(final String name) {
+		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }

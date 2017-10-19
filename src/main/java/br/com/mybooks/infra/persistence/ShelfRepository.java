@@ -27,4 +27,6 @@ public interface ShelfRepository extends CrudRepository<Shelf, Long> {
 	Shelf findByCategory(Category category);
 	
 	Shelf deleteByCategory(Category category);
+	
+	boolean existsByCategory(Category category);
 }

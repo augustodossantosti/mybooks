@@ -15,5 +15,18 @@ package br.com.mybooks.domain.items;
  */
 public enum Type {
 
-	BOOK, MAGAZINE, MANGA
+	BOOK("Book"), 
+	MAGAZINE("Magazine"), 
+	MANGA("Manga");
+	
+	private final String name;
+	
+	private Type(final String name) {
+		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

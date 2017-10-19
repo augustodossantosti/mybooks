@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import br.com.mybooks.domain.items.Category;
 import br.com.mybooks.domain.items.Item;
+import br.com.mybooks.domain.library.events.Event;
+import br.com.mybooks.domain.library.events.EventType;
+import br.com.mybooks.domain.library.exceptions.LibraryException;
 import br.com.mybooks.domain.shelf.Shelf;
 import br.com.mybooks.infra.persistence.ItemRepository;
 import br.com.mybooks.infra.persistence.ShelfRepository;
@@ -34,8 +37,11 @@ public class LibraryService {
 	@Autowired
 	private ItemRepository itemRepository;
 	
-	public void registerShelf(final Shelf shelf) {
-		shelfRepository.save(shelf);
+	@Autowired
+	private EventsService eventsService;
+	
+	public Shelf saveShelf(final Shelf shelf) {
+		return shelfRepository.save(shelf);
 	}
 	
 	public void removeShelfById(final Long id) {
@@ -44,6 +50,10 @@ public class LibraryService {
 	
 	public void removeShelfByCategory(final Category category) {
 		shelfRepository.deleteByCategory(category);
+	}
+	
+	public boolean existsShelfByCategory(final Category category) {
+		return shelfRepository.existsByCategory(category);
 	}
 	
 	public Shelf findShelfById(final Long id) {
@@ -61,8 +71,8 @@ public class LibraryService {
 		return shelfs;
 	}
 	
-	public void saveItem(final Item item) {
-		itemRepository.save(item);
+	public Item saveItem(final Item item) {
+		return itemRepository.save(item);
 	}
 	
 	public void deleteItem(final Item item) {
@@ -94,6 +104,18 @@ public class LibraryService {
 		final List<Item> items = new ArrayList<>();
 		itemsIterable.forEach(items::add);
 		return items;
+	}
+	
+	public Event registerEvent(final EventType type, final Item item) {
+		return eventsService.registerEvent(type, item);
+	}
+	
+	public Event getRegisterItemEvent(final String title) throws LibraryException {
+		return eventsService.getRegisterItemEvent(title);
+	}
+	
+	public List<Event> getAllEvents() {
+		return eventsService.getAllEvents();
 	}
 	
 }

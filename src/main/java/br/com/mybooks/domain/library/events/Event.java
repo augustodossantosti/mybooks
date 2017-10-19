@@ -20,7 +20,7 @@ import br.com.mybooks.domain.items.Type;
  * @author Augusto dos Santos
  * @version 1.0 20 de out de 2016
  */
-public abstract class Event extends EventObject implements Comparable<Event> {
+public class Event extends EventObject implements Comparable<Event> {
 
 	private static final long serialVersionUID = 1L;
 

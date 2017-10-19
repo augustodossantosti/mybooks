@@ -12,7 +12,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 
 /**
- * 
+ * A classe <code>AbstractSerializer</code> contém métodos úteis 
+ * para o processo de serialização de objetos.
  *
  * @author Augusto dos Santos
  * @version 1.0 8 de ago de 2017
