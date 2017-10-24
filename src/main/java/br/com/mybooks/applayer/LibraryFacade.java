@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,7 @@ import br.com.mybooks.domain.library.Library;
 import br.com.mybooks.domain.library.events.Event;
 import br.com.mybooks.domain.library.exceptions.LibraryException;
 import br.com.mybooks.domain.library.exceptions.NoOperationsException;
+import br.com.mybooks.domain.library.exceptions.StorageFileNotFoundException;
 import br.com.mybooks.domain.shelf.Shelf;
 import br.com.mybooks.infra.services.StorageService;
 
@@ -55,16 +57,20 @@ public class LibraryFacade {
 		return library.listAllShelfs();
 	}
 	
-	public void registerItem(final Item item, final MultipartFile multipartFile) throws LibraryException, IOException {
-		final FileInfo fileInfo = storageService.store(multipartFile);
+	public void registerItem(final Item item, final MultipartFile file, final MultipartFile cover) throws LibraryException, IOException {
+		final FileInfo fileInfo = storageService.store(file, cover);
 		item.setFileInfo(fileInfo);
 		library.registerItem(item);
 	}
 	
-	public Item updateItem(final Item item, final MultipartFile multipartFile) throws IOException {
-		final FileInfo fileInfo = storageService.store(multipartFile);
+	public Item updateItem(final Item item, final MultipartFile file, final MultipartFile cover) throws IOException {
+		final FileInfo fileInfo = storageService.store(file, cover);
 		item.setFileInfo(fileInfo);
 		return library.updateItem(item);
+	}
+	
+	public Resource loadAsResource(final String filePath) throws StorageFileNotFoundException {
+		return storageService.loadAsResource(filePath);
 	}
 	
 	public Item searchItemById(final Long id) {

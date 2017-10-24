@@ -8,6 +8,7 @@ package br.com.mybooks.infra.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -82,7 +83,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public CorsConfigurationSource corsConfigurationSource() {
 		final CorsConfiguration configuration = new CorsConfiguration();
 		configuration.applyPermitDefaultValues();
-		configuration.addExposedHeader("Authorization");
+		configuration.addExposedHeader(HttpHeaders.AUTHORIZATION);
+		configuration.addExposedHeader(HttpHeaders.CONTENT_TYPE);
+		configuration.addExposedHeader(HttpHeaders.CONTENT_DISPOSITION);
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;

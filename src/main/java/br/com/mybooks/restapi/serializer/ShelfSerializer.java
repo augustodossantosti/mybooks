@@ -35,7 +35,7 @@ public class ShelfSerializer extends JsonSerializer<ShelfWrapper> {
 
 		jGen.writeStartObject();
 		jGen.writeNumberField("id", shelf.getId());
-		jGen.writeStringField("category", shelf.getCategory().name());
+		jGen.writeStringField("category", shelf.getCategory().toString());
 		serializeItemsBasicInformation(shelf.getAvailableItems(), jGen);
 		jGen.writeEndObject();
 	}
@@ -48,7 +48,9 @@ public class ShelfSerializer extends JsonSerializer<ShelfWrapper> {
 			jGen.writeStringField("title", item.getTitle());
 			jGen.writeNumberField("edition", item.getEdition());
 			jGen.writeStringField("publisher", item.getPublisher());
-			jGen.writeStringField("type", item.getType().name());
+			jGen.writeStringField("type", item.getType().toString());
+			jGen.writeStringField("filePath", item.getFileInfo().getFilePath());
+			jGen.writeStringField("coverBase64", item.getFileInfo().getCoverBase64());
 			jGen.writeEndObject();
 		}
 		jGen.writeEndArray();

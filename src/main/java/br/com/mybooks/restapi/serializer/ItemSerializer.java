@@ -36,9 +36,10 @@ public class ItemSerializer extends AbstractSerializer<ItemWrapper> {
 		writeNumber(jGen, "edition", item.getEdition());
 		jGen.writeStringField("publisher", item.getPublisher());
 		jGen.writeStringField("description", item.getDescription());
-		jGen.writeStringField("category", item.getCategory().name());
-		jGen.writeStringField("type", item.getType().name());
+		jGen.writeStringField("category", item.getCategory().toString());
+		jGen.writeStringField("type", item.getType().toString());
 		jGen.writeStringField("identification", item.getIdentification());
+		jGen.writeStringField("coverBase64", item.getFileInfo().getCoverBase64());
 		jGen.writeEndObject();
 	}
 

@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Lob;
 
 /**
  * A classe <code>FileInfo</code> encapsula as informações referentes 
@@ -20,70 +21,65 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class FileInfo {
-
-	@Column(name = "FILE_NAME")
-	private String name;
 	
 	@Column(name = "CREATED_DATE")
 	private LocalDate createdDate;
+
+	@Column(name = "FILE_NAME")
+	private String fileName;
 	
 	@Column(name = "FILE_PATH")
-	private String path;
+	private String filePath;
+	
+	@Lob
+	@Column(name = "COVER_BASE_64")
+	private String coverBase64;
 	
 	public FileInfo() {}
 	
-	public FileInfo(final String fileName, final LocalDate createdDate, final String absolutePath) {
-		this.name = fileName;
+	public FileInfo(final LocalDate createdDate, final String fileName, final String filePath, final String coverBase64) {
 		this.createdDate = createdDate;
-		this.path = absolutePath;
+		this.fileName = fileName;
+		this.filePath = filePath;
+		this.coverBase64 = coverBase64;
 	}
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return the createdDate
-	 */
 	public LocalDate getCreatedDate() {
 		return createdDate;
 	}
 
-	/**
-	 * @param createdDate the createdDate to set
-	 */
 	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	/**
-	 * @return the path
-	 */
-	public String getPath() {
-		return path;
+	public String getFileName() {
+		return fileName;
 	}
 
-	/**
-	 * @param path the path to set
-	 */
-	public void setPath(String path) {
-		this.path = path;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public String getCoverBase64() {
+		return coverBase64;
+	}
+
+	public void setCoverBase64(String coverBase64) {
+		this.coverBase64 = coverBase64;
 	}
 
 	@Override
 	public String toString() {
-		return "FileInfo: [name: " + name + ", createdDate: " 
-				+ createdDate.format(DateTimeFormatter.ofPattern("dd MMM uuuu")) + ", path: " + path + "]";
+		return "FileInfo: [name: " + fileName + ", createdDate: " 
+				+ createdDate.format(DateTimeFormatter.ofPattern("dd MMM uuuu")) + ", path: " + filePath + "]";
 	}
 
 }

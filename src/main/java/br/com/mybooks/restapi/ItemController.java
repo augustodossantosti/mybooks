@@ -12,12 +12,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +35,7 @@ import br.com.mybooks.domain.items.Category;
 import br.com.mybooks.domain.items.Type;
 import br.com.mybooks.domain.library.exceptions.LibraryException;
 import br.com.mybooks.domain.library.exceptions.NoOperationsException;
+import br.com.mybooks.domain.library.exceptions.StorageFileNotFoundException;
 import br.com.mybooks.restapi.wrapper.ItemWrapper;
 import br.com.mybooks.restapi.wrapper.ReportWrapper;
 
@@ -63,16 +68,26 @@ public class ItemController {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public void registerItem(@RequestPart("item") final ItemWrapper wrapper, 
-			@RequestPart("file") final MultipartFile multipartFile) throws LibraryException, IOException  {
+			@RequestPart("file") final MultipartFile file, @RequestPart("cover") final MultipartFile coverFile) throws LibraryException, IOException  {
 		
-		libraryFacade.registerItem(wrapper.getItem(), multipartFile);
+		libraryFacade.registerItem(wrapper.getItem(), file, coverFile);
 	}
 	
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ItemWrapper updateItem(@RequestPart("item") final ItemWrapper wrapper, 
-			@RequestPart("file") final MultipartFile multipartFile) throws IOException {
+			@RequestPart("file") final MultipartFile file, @RequestPart("cover") final MultipartFile coverFile) throws IOException {
 		
-		return ItemWrapper.toWrapper(libraryFacade.updateItem(wrapper.getItem(), multipartFile));
+		return ItemWrapper.toWrapper(libraryFacade.updateItem(wrapper.getItem(), file, coverFile));
+	}
+	
+	@PostMapping(path = "/file")
+	public ResponseEntity<Resource> downloadItemFile(@RequestBody Map<String, String> filePath) throws StorageFileNotFoundException {
+		final Resource resource = libraryFacade.loadAsResource(filePath.get("filePath"));
+		return ResponseEntity
+				.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+				.body(resource);
 	}
 	
 	@GetMapping(path = "/categories")

@@ -5,8 +5,6 @@
  */
 package br.com.mybooks.domain.items;
 
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -116,18 +114,6 @@ public final class Item implements Comparable<Item> {
 	
 	public FileInfo getFileInfo() {
 		return fileInfo;
-	}
-	
-	public String getFileName() {
-		return fileInfo.getName();
-	}
-	
-	public LocalDate getFileCreatedDate() {
-		return fileInfo.getCreatedDate();
-	}
-	
-	public String getFilePath() {
-		return fileInfo.getPath();
 	}
 	
 	public Long getShelfId() {
