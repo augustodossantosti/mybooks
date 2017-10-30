@@ -32,13 +32,9 @@ import io.jsonwebtoken.Jws;
 @Component
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 	
-	private final JwtSettings jwtSettings;
-	
 	@Autowired
-	public JwtAuthenticationProvider(JwtSettings jwtSettings) {
-		this.jwtSettings = jwtSettings;
-	}
-
+	private JwtSettings jwtSettings;
+	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 

@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,20 +38,25 @@ public class ShelfController {
 	@Autowired
 	private LibraryFacade libraryFacade;
 	
+	@PostMapping
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public void registerShelf(@RequestParam(name = "category") final Category category) throws LibraryException {
+		libraryFacade.registerShelf(category);
+	}
+	
+	@DeleteMapping(path = "/{category}")
+	public void removeShelf(@PathVariable(name = "category") final Category category) {
+		libraryFacade.removeShelf(category);
+	}
+	
 	@GetMapping
 	public List<ShelfWrapper> listShelfs() {
 		return ShelfWrapper.toWrapperList(libraryFacade.listAllShelfs());
 	}
 	
-	@GetMapping(path = "/{id}")
-	public ShelfWrapper findShelf(@PathVariable(name = "id") final Long id) {
-		return ShelfWrapper.toWrapper(libraryFacade.searchShelfById(id));
-	}
-	
-	@PostMapping
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public void registerShelf(@RequestParam(name = "category") final Category category) throws LibraryException {
-		libraryFacade.registerShelf(category);
+	@GetMapping(path = "/{category}")
+	public ShelfWrapper findShelf(@PathVariable(name = "category") final Category category) {
+		return ShelfWrapper.toWrapper(libraryFacade.searchShelfByCategory(category));
 	}
 	
 }

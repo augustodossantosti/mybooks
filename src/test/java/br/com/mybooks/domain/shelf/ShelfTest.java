@@ -6,21 +6,23 @@
  */
 package br.com.mybooks.domain.shelf;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.mybooks.configuration.TestContextConfiguration;
+import br.com.mybooks.configuration.UnitTestConfiguration;
 import br.com.mybooks.domain.items.Category;
 import br.com.mybooks.domain.items.Item;
-import br.com.mybooks.domain.items.LibraryItemFactory;
-import br.com.mybooks.domain.shelf.Shelf;
+import br.com.mybooks.domain.items.ItemFactory;
 import br.com.mybooks.domain.shelf.exceptions.InvalidCategoryOfItemException;
 import br.com.mybooks.domain.shelf.exceptions.ItemNotFoundException;
 
@@ -32,12 +34,12 @@ import br.com.mybooks.domain.shelf.exceptions.ItemNotFoundException;
  * @author Augusto dos Santos
  * @version 1.0 5 de mar de 2017
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=TestContextConfiguration.class)
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes=UnitTestConfiguration.class)
 public class ShelfTest {
 	
 	@Autowired
-	private LibraryItemFactory itemFactory;
+	private ItemFactory itemFactory;
 	
 	private Shelf shelf;
 	private Item item;
@@ -63,8 +65,6 @@ public class ShelfTest {
 	
 	@Test
 	public void shouldRemoveItemPreviouslyAdded() throws InvalidCategoryOfItemException {
-		
-		assertThat( shelf.getAvailableItems(), is(empty()) );
 		
 		item = itemFactory.createMagazineWithCategory(Category.ADVENTURE);
 		shelf.addNewItem(item);

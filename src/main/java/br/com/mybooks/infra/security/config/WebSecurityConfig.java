@@ -24,8 +24,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import br.com.mybooks.infra.security.auth.AuthenticationFailureEntryPoint;
 import br.com.mybooks.infra.security.auth.StrategyRequestMatcher;
 import br.com.mybooks.infra.security.auth.jwt.JwtAuthenticationFilter;
@@ -62,21 +60,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationProvider jwtAuthenticationProvider;
     
     @Autowired
-    private AuthenticationFailureEntryPoint authenticationFailureEntryPoint;
+    private JwtHeaderExtractor tokenExtractor;
     
     @Autowired
-    private JwtHeaderExtractor tokenExtractor;
+    private AuthenticationFailureEntryPoint authenticationFailureEntryPoint;
     
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
     	return super.authenticationManagerBean();
-    }
-    
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.authenticationProvider(loginAuthenticationProvider);
-    	auth.authenticationProvider(jwtAuthenticationProvider);
     }
     
     @Bean
@@ -115,9 +107,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
     
-    @Bean
-    public ObjectMapper jsonMapper() {
-    	return new ObjectMapper();
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    	auth.authenticationProvider(loginAuthenticationProvider);
+    	auth.authenticationProvider(jwtAuthenticationProvider);
     }
 
 	@Override

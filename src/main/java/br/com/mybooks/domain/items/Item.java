@@ -116,6 +116,18 @@ public final class Item implements Comparable<Item> {
 		return fileInfo;
 	}
 	
+	public String getFileName() {
+		return fileInfo != null ? fileInfo.getFileName() : null;
+	}
+	
+	public String getFilePath() {
+		return fileInfo != null ? fileInfo.getFilePath() : null;
+	}
+	
+	public String getFileCover() {
+		return fileInfo != null ? fileInfo.getCoverBase64() : null;
+	}
+	
 	public Long getShelfId() {
 		return shelfId;
 	}

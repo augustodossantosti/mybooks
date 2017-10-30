@@ -45,11 +45,11 @@ public class LibraryFacade {
 		library.registerShelf(category);
 	}
 	
-	public Shelf searchShelfById(final Long id) {
-		return library.searchShelfById(id);
+	public void removeShelf(final Category category) {
+		library.removeShelf(category);
 	}
 	
-	public Shelf searchShelf(final Category category) {
+	public Shelf searchShelfByCategory(final Category category) {
 		return library.searchShelfByCategory(category);
 	}
 	

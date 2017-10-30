@@ -37,14 +37,11 @@ import br.com.mybooks.infra.services.UserService;
 @Component
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 	
-	private final BCryptPasswordEncoder passwordEncoder;
-	private final UserService userService;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public LoginAuthenticationProvider(final BCryptPasswordEncoder passwordEncoder, final UserService userService) {
-		this.passwordEncoder = passwordEncoder;
-		this.userService = userService;
-	}
+	private UserService userService;
 
 	/**
 	 * Verifica as credenciais fornecidas comparando-as com as armazenadas no banco

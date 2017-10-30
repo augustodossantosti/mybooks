@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,7 +30,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.mybooks.infra.security.auth.jwt.JwtAuthenticationFilter;
 import br.com.mybooks.infra.security.auth.login.LoginFilter;
-import br.com.mybooks.infra.security.config.WebSecurityConfig;
 import br.com.mybooks.restapi.errorhandling.LibraryErrorResponse;
 
 /**
@@ -42,8 +41,8 @@ import br.com.mybooks.restapi.errorhandling.LibraryErrorResponse;
  * @author Augusto dos Santos
  * @version 1.0 8 de abr de 2017
  */
+@SpringBootTest
 @WebAppConfiguration
-@ContextConfiguration(classes={WebSecurityConfig.class, TestContextConfiguration.class})
 public class AbstractIntegrationTest {
 	
 	@Autowired
@@ -73,7 +72,7 @@ public class AbstractIntegrationTest {
     	
         mockMvc = webAppContextSetup(webApplicationContext)
         		.addFilter(jwtAuthenticationFilter, "/*").build();
-        return mockMvc.perform(get(restURI, urlVariable).header("X-Authorization", "Bearer " + authenticationToken)).andReturn();
+        return mockMvc.perform(get(restURI, urlVariable).header("Authorization", "Bearer " + authenticationToken)).andReturn();
     }
 
     protected MvcResult performRESTPost(final String restURI, final String authenticationToken, 
@@ -82,7 +81,7 @@ public class AbstractIntegrationTest {
         mockMvc = webAppContextSetup(webApplicationContext)
         		.addFilter(jwtAuthenticationFilter, "/*").build();
         return mockMvc.perform(post(restURI, urlVariable).contentType(MediaType.APPLICATION_JSON)
-        		.content(json).header("X-Authorization", "Bearer " + authenticationToken)).andReturn();
+        		.content(json).header("Authorization", "Bearer " + authenticationToken)).andReturn();
     }
     
     protected LibraryErrorResponse getAuthenticationErrorResponse(final MockHttpServletResponse httpResponse) 

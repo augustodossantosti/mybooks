@@ -35,8 +35,8 @@ public class DefaultAuthenticationFailureHandler implements AuthenticationFailur
 	
 	private final ObjectMapper jsonMapper;
 	
-	public DefaultAuthenticationFailureHandler(final ObjectMapper mapper) {
-		this.jsonMapper = mapper;
+	public DefaultAuthenticationFailureHandler() {
+		this.jsonMapper = new ObjectMapper();
 	}
 
 	/**

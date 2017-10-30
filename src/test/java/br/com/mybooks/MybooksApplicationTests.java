@@ -7,12 +7,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.mybooks.configuration.AbstractIntegrationTest;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class MybooksApplicationTests extends AbstractIntegrationTest {
 
 	@Test
-	public void contextLoads() {
-	}
+	public void contextLoads() {}
 
 }

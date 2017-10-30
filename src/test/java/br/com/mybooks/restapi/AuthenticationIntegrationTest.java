@@ -7,7 +7,10 @@
 package br.com.mybooks.restapi;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -16,13 +19,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
 import br.com.mybooks.configuration.AbstractIntegrationTest;
 import br.com.mybooks.domain.items.Category;
 import br.com.mybooks.domain.items.Item;
-import br.com.mybooks.domain.items.LibraryItemFactory;
+import br.com.mybooks.domain.items.ItemFactory;
 import br.com.mybooks.restapi.errorhandling.LibraryErrorResponse;
 import br.com.mybooks.restapi.wrapper.ItemWrapper;
 
@@ -34,11 +37,11 @@ import br.com.mybooks.restapi.wrapper.ItemWrapper;
  * @author Augusto dos Santos
  * @version 1.0 9 de abr de 2017
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 public class AuthenticationIntegrationTest extends AbstractIntegrationTest {
 	
 	@Autowired
-	private LibraryItemFactory itemFactory;
+	private ItemFactory itemFactory;
 
 	@Test
 	public void shouldGetAuthorizationJwt() throws Exception {

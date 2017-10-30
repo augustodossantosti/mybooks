@@ -20,7 +20,9 @@ import com.fasterxml.jackson.databind.JsonSerializer;
  */
 public abstract class AbstractSerializer<T> extends JsonSerializer<T> {
 	
-	protected void writeNumber(final JsonGenerator jsonGenerator, final String fieldName, final Integer value) throws IOException {
+	protected void writeNumber(final JsonGenerator jsonGenerator, final String fieldName, 
+			final Integer value) throws IOException {
+		
 		if(value == null) {
 			jsonGenerator.writeNullField(fieldName);
 		} else {
@@ -28,7 +30,9 @@ public abstract class AbstractSerializer<T> extends JsonSerializer<T> {
 		}
 	}
 	
-	protected void writeNumber(final JsonGenerator jsonGenerator, final String fieldName, final Long value) throws IOException {
+	protected void writeNumber(final JsonGenerator jsonGenerator, final String fieldName, 
+			final Long value) throws IOException {
+		
 		if(value == null) {
 			jsonGenerator.writeNullField(fieldName);
 		} else {
@@ -36,11 +40,23 @@ public abstract class AbstractSerializer<T> extends JsonSerializer<T> {
 		}
 	}
 	
-	protected void writeNumber(final JsonGenerator jsonGenerator, final String fieldName, final Double value) throws IOException {
+	protected void writeNumber(final JsonGenerator jsonGenerator, final String fieldName, 
+			final Double value) throws IOException {
+		
 		if(value == null) {
 			jsonGenerator.writeNullField(fieldName);
 		} else {
 			jsonGenerator.writeNumberField(fieldName, value);
+		}
+	}
+	
+	protected void writeText(final JsonGenerator jsonGenerator, final String fieldName, 
+			final String value) throws IOException {
+		
+		if(value == null) {
+			jsonGenerator.writeNullField(fieldName);
+		} else {
+			jsonGenerator.writeStringField(fieldName, value);
 		}
 	}
 }
