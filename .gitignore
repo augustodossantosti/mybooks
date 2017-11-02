@@ -1,0 +1,8 @@
+/.settings/
+/.vscode/
+/target/
+/.apt-generated/
+/.project
+/.classpath
+/.factorypath
+
