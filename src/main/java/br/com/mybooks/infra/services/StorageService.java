@@ -24,8 +24,9 @@ import br.com.mybooks.domain.items.FileInfo;
 import br.com.mybooks.domain.library.exceptions.StorageFileNotFoundException;
 
 /**
- * A classe <code>StorageService</code> contem métodos
- * para operações com os arquivos relacionados a itens.
+ * A classe <code>StorageService</code> é responsável
+ * pelas operações de armazenamento de arquivos 
+ * relacionados aos itens gerenciáveis pela aplicação.
  *
  * @author Augusto dos Santos
  * @version 1.0 18 de out de 2017

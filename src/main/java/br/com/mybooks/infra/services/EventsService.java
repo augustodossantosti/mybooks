@@ -21,7 +21,10 @@ import br.com.mybooks.domain.library.exceptions.LibraryException;
 import br.com.mybooks.domain.library.exceptions.NoDomainEventOfThisTypeException;
 
 /**
- * 
+ * A classe <code>EventsService</code> é responsável pelas
+ * operações relacionadas a eventos de dominio ocorridos na
+ * execução da aplicação.
+ * @see Event
  *
  * @author Augusto dos Santos
  * @version 1.0 18 de out de 2017

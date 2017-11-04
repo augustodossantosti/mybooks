@@ -6,32 +6,23 @@
  */
 package br.com.mybooks.infra.security.auth.login;
 
-import io.jsonwebtoken.Claims;
-
 /**
- * A classe <code>AccessJwt</code> representa o JWT de
- * autenticação e acesso.
+ * A classe <code>AccessJwt</code> representa um JWT válido 
+ * para o processo de autenticação na aplicação.
  *
  * @author Augusto dos Santos
  * @version 1.0 13 de jan de 2017
  */
 public class AccessJwt {
 
-	private final String rawToken;
-	
-    private final Claims claims;
+	private final String token;
 
-    public AccessJwt(final String token, Claims claims) {
-        this.rawToken = token;
-        this.claims = claims;
+    public AccessJwt(final String token) {
+        this.token = token;
     }
 
     public String getToken() {
-        return rawToken;
-    }
-
-    public Claims getClaims() {
-        return claims;
+        return token;
     }
 
 }

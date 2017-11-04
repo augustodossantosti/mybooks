@@ -35,7 +35,7 @@ public class Library {
 	@Autowired
 	private LibraryService libraryService;
 	
-	public Shelf registerShelf(Category category) throws ShelfAlreadyRegisteredException {
+	public Shelf registerShelf(final Category category) throws ShelfAlreadyRegisteredException {
 		if(shelfAlreadyExists(category)) {
 			throw new ShelfAlreadyRegisteredException();
 		}

@@ -8,7 +8,9 @@ package br.com.mybooks.infra.security.auth;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 
 /**
  * A classe <code>AuthenticationRequestVerifier</code> é responsável
@@ -21,25 +23,22 @@ public class AuthenticationRequestVerifier {
 	
 	private static final String X_REQUESTED_WITH = "X-Requested-With";
 	private static final String XML_HTTP_REQUEST = "XMLHttpRequest";
-    private static final String CONTENT_TYPE = "Content-type";
-    private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String JWT_TOKEN_HEADER_PARAM = "Authorization";
     
-    public static boolean isValidLoginRequest(HttpServletRequest request) {
+    public static boolean isValidLoginRequest(final HttpServletRequest request) {
         if(!HttpMethod.POST.name().equals(request.getMethod()) 
         		|| !hasValidLoginHeaders(request)
         		|| !request.getHeader(X_REQUESTED_WITH).equals(XML_HTTP_REQUEST)
-        		|| !request.getHeader(CONTENT_TYPE).contains(CONTENT_TYPE_JSON)) {
+        		|| !request.getHeader(HttpHeaders.CONTENT_TYPE).contains(MediaType.APPLICATION_JSON_VALUE)) {
 			return false;
 		}
         return true;
     }
     
-    public static boolean isValidJwtRequest(HttpServletRequest request) {
-    	return request.getHeader(JWT_TOKEN_HEADER_PARAM) != null ? true : false;
+    public static boolean isValidJwtRequest(final HttpServletRequest request) {
+    	return request.getHeader(HttpHeaders.AUTHORIZATION) != null ? true : false;
     }
 
     private static boolean hasValidLoginHeaders(final HttpServletRequest request) {
-    	return request.getHeader(X_REQUESTED_WITH) != null && request.getHeader(CONTENT_TYPE) != null;
+    	return request.getHeader(X_REQUESTED_WITH) != null && request.getHeader(HttpHeaders.CONTENT_TYPE) != null;
     }
 }

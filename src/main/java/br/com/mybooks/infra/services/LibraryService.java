@@ -66,8 +66,7 @@ public class LibraryService {
 	
 	public List<Shelf> findAllShelfs() {
 		final List<Shelf> shelfs = new ArrayList<>();
-		final Iterable<Shelf> shelfsIterable = shelfRepository.findAll();
-		shelfsIterable.forEach(shelfs::add);
+		shelfRepository.findAll().forEach(shelfs::add);
 		return shelfs;
 	}
 	
@@ -100,9 +99,8 @@ public class LibraryService {
 	}
 	
 	public List<Item> findAllItems() {
-		final Iterable<Item> itemsIterable = itemRepository.findAll();
 		final List<Item> items = new ArrayList<>();
-		itemsIterable.forEach(items::add);
+		itemRepository.findAll().forEach(items::add);
 		return items;
 	}
 	

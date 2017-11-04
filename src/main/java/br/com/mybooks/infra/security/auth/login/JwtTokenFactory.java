@@ -29,12 +29,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtTokenFactory {
 	
-	private final JwtSettings jwtSettings;
-	
 	@Autowired
-	public JwtTokenFactory(final JwtSettings jwtSettings) {
-		this.jwtSettings = jwtSettings;
-	}
+	private JwtSettings jwtSettings;
 	
 	/**
 	 * Cria um novo JWT de acesso.
@@ -54,9 +50,9 @@ public class JwtTokenFactory {
           .setIssuedAt(currentTime.toDate())
           .setExpiration(currentTime.plusMinutes(jwtSettings.getTokenExpirationTime()).toDate())
           .signWith(SignatureAlgorithm.HS512, jwtSettings.getTokenSigningKey())
-        .compact();
+          .compact();
 
-        return new AccessJwt(token, claims);
+        return new AccessJwt(token);
     }
 
 }

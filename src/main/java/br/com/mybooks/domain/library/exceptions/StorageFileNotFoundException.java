@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Augusto dos Santos
  * @version 1.0 20 de out de 2017
  */
-@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="Could not read file.")
+@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="Could not found file.")
 public class StorageFileNotFoundException extends LibraryException {
 
 	private static final long serialVersionUID = 1L;
