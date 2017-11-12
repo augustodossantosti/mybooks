@@ -38,6 +38,11 @@ public class ShelfController {
 	@Autowired
 	private LibraryFacade libraryFacade;
 	
+	@GetMapping(path = "/{category}")
+	public ShelfWrapper findShelf(@PathVariable(name = "category") final Category category) {
+		return ShelfWrapper.toWrapper(libraryFacade.searchShelfByCategory(category));
+	}
+	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void registerShelf(@RequestParam(name = "category") final Category category) throws LibraryException {
@@ -52,11 +57,6 @@ public class ShelfController {
 	@GetMapping
 	public List<ShelfWrapper> listShelfs() {
 		return ShelfWrapper.toWrapperList(libraryFacade.listAllShelfs());
-	}
-	
-	@GetMapping(path = "/{category}")
-	public ShelfWrapper findShelf(@PathVariable(name = "category") final Category category) {
-		return ShelfWrapper.toWrapper(libraryFacade.searchShelfByCategory(category));
 	}
 	
 }

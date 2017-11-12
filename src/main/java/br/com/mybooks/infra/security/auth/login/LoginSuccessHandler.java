@@ -22,8 +22,6 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import br.com.mybooks.infra.security.auth.AuthenticatedUser;
 
 /**
@@ -39,9 +37,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	@Autowired
 	private JwtTokenFactory tokenFactory;
 	
-	@Autowired
-	private ObjectMapper objectMapper;
-	
 	/**
 	 * Cria o JWT e o adiciona ao cabeçalho da resposta para a aplicação cliente.
 	 * Também é adicionado no corpo da resposta algumas informações uteis referentes 
@@ -53,14 +48,13 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			throws IOException, ServletException {
 
 		final AuthenticatedUser authenticatedUser = (AuthenticatedUser) authentication.getPrincipal();
-		final String userInformation = objectMapper.writeValueAsString(authenticatedUser.getUserInformation());
 		final AccessJwt accessJWT = tokenFactory.createAccessJwt(authenticatedUser);
 		
 		response.setStatus(HttpStatus.OK.value());
 		response.setHeader(HttpHeaders.AUTHORIZATION, accessJWT.getToken());
-		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		response.setContentType(MediaType.TEXT_PLAIN_VALUE);
 		response.setCharacterEncoding("UTF-8");
-		response.getWriter().write(userInformation);
+		response.getWriter().write("Welcome " + authenticatedUser.getUsername());
 		
 		clearAuthenticationAttributes(request);
 		

@@ -53,13 +53,6 @@ public class ItemController {
 	@Autowired
 	private LibraryFacade libraryFacade;
 	
-	@GetMapping
-	public List<ItemWrapper> listAllItems(@RequestParam(name = "category", required = false) final Category category, 
-			@RequestParam(name = "type", required = false) final Type type) throws LibraryException {
-		
-		return ItemWrapper.toWrapperList(libraryFacade.listAllItems(category));
-	}
-	
 	@GetMapping(path = "/{id}")
 	public ItemWrapper findItem(@PathVariable(name = "id") final Long id) {
 		return ItemWrapper.toWrapper(libraryFacade.searchItemById(id));
@@ -78,6 +71,13 @@ public class ItemController {
 			@RequestPart("file") final MultipartFile file, @RequestPart("cover") final MultipartFile coverFile) throws IOException {
 		
 		return ItemWrapper.toWrapper(libraryFacade.updateItem(wrapper.getItem(), file, coverFile));
+	}
+	
+	@GetMapping
+	public List<ItemWrapper> listAllItems(@RequestParam(name = "category", required = false) final Category category, 
+			@RequestParam(name = "type", required = false) final Type type) throws LibraryException {
+		
+		return ItemWrapper.toWrapperList(libraryFacade.listAllItems(category));
 	}
 	
 	@PostMapping(path = "/file")

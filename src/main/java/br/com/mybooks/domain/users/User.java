@@ -117,6 +117,14 @@ public class User {
 	public void setIdNumber(String idNumber) {
 		information.setIdNumber(idNumber);
 	}
+	
+	public String getProfilePicture() {
+		return information.getProfilePicture();
+	}
+	
+	public void setProfilePicture(final String profilePicture) {
+		information.setProfilePicture(profilePicture);
+	}
 
 	public String getCellPhone() {
 		return information.getCellPhone();

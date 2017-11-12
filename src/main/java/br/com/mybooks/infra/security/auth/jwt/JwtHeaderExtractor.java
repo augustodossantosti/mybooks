@@ -9,6 +9,7 @@ package br.com.mybooks.infra.security.auth.jwt;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import br.com.mybooks.infra.security.auth.exceptions.InvalidAuthorizationHeaderException;
@@ -23,7 +24,6 @@ import br.com.mybooks.infra.security.auth.exceptions.InvalidAuthorizationHeaderE
 @Component
 public class JwtHeaderExtractor {
 	
-	private static final String JWT_TOKEN_HEADER_PARAM = "Authorization";
 	private static final String HEADER_PREFIX = "Bearer ";
 
 	/**
@@ -32,7 +32,7 @@ public class JwtHeaderExtractor {
 	 */
 	public String extract(HttpServletRequest request) {
 		
-		final String token = request.getHeader(JWT_TOKEN_HEADER_PARAM);
+		final String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 		
 		verifyToken(token);
 

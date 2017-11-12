@@ -31,9 +31,9 @@ public class UserService {
 		return repository.findByUsername(username);
 	}
 	
-	public void registerUser(User user) {
+	public User registerUser(User user) {
 		validateUser(user);
-		repository.save(user);
+		return repository.save(user);
 	}
 	
 	private void validateUser(final User user) {

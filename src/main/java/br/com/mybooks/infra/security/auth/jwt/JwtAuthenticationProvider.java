@@ -46,10 +46,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 		final List<String> scopes = jwsClaims.getBody().get("scopes", List.class);
         
         final List<GrantedAuthority> authorities = getAuthority(scopes);
-        
         final AuthenticatedUser authenticatedUser = AuthenticatedUser.create(username, authorities);
-        
-        return new JwtAuthenticationToken(authenticatedUser, authenticatedUser.getAuthorities());
+        return new JwtAuthenticationToken(authenticatedUser);
 	}
 
 	@Override

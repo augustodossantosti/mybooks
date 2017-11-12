@@ -6,10 +6,7 @@
  */
 package br.com.mybooks.infra.security.auth.jwt;
 
-import java.util.Collection;
-
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 
 import br.com.mybooks.infra.security.auth.AuthenticatedUser;
 
@@ -34,8 +31,8 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
         this.setAuthenticated(false);
     }
 
-    public JwtAuthenticationToken(final AuthenticatedUser authenticatedUser, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+    public JwtAuthenticationToken(final AuthenticatedUser authenticatedUser) {
+        super(authenticatedUser.getAuthorities());
         this.eraseCredentials();
         this.authenticatedUser = authenticatedUser;
         super.setAuthenticated(true);

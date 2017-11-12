@@ -6,10 +6,12 @@
  */
 package br.com.mybooks.infra.security.auth.login;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,14 +43,14 @@ public class JwtTokenFactory {
         final Claims claims = Jwts.claims().setSubject(user.getUsername());
         claims.put("scopes", user.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
 
-        final DateTime currentTime = new DateTime();
+        final Instant currentTime = Instant.now();
 
         String token = Jwts.builder()
           .setClaims(claims)
           .setIssuer(jwtSettings.getTokenIssuer())
           .setId(UUID.randomUUID().toString())
-          .setIssuedAt(currentTime.toDate())
-          .setExpiration(currentTime.plusMinutes(jwtSettings.getTokenExpirationTime()).toDate())
+          .setIssuedAt(Date.from(currentTime))
+          .setExpiration(Date.from(currentTime.plus(jwtSettings.getTokenExpirationTime(), ChronoUnit.MINUTES)))
           .signWith(SignatureAlgorithm.HS512, jwtSettings.getTokenSigningKey())
           .compact();
 

@@ -23,8 +23,9 @@ import br.com.mybooks.domain.shelf.Shelf;
 import br.com.mybooks.infra.services.LibraryService;
 
 /**
- * A classe <code>Library</code> contém todos os métodos de dominio
- * da aplicação, como permitir cadastro itens, empréstimos e devoluções.
+ * A classe <code>Library</code> centraliza as operações de
+ * domínio relacionadas a manipulação de prateleiras e itens
+ * gerenciáveis pela aplicação.
  *
  * @author Augusto dos Santos
  * @version 1.0 13 de out de 2016
@@ -63,7 +64,10 @@ public class Library {
 
 	public Item registerItem(final Item newItem) throws LibraryException {
 		final Category itemCategory = newItem.getCategory();
-		final Shelf shelf = shelfAlreadyExists(itemCategory) ? libraryService.findShelfByCategory(itemCategory) : registerShelf(itemCategory);
+		
+		final Shelf shelf = shelfAlreadyExists(itemCategory) ? 
+				libraryService.findShelfByCategory(itemCategory) : registerShelf(itemCategory);
+				
 		shelf.addNewItem(newItem);
 		libraryService.saveItem(newItem);
 		libraryService.saveShelf(shelf);

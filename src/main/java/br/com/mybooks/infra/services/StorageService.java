@@ -61,7 +61,8 @@ public class StorageService {
 	
 	private String getCurrentFilePath() {
         final Calendar now = Calendar.getInstance();
-        return getAttachmentPath() + now.get(Calendar.YEAR) + File.separator + (now.get(Calendar.MONTH) + 1) + File.separator + now.get(Calendar.DAY_OF_MONTH);
+        return getAttachmentPath() + now.get(Calendar.YEAR) + File.separator + (now.get(Calendar.MONTH) + 1) 
+        		+ File.separator + now.get(Calendar.DAY_OF_MONTH);
     }
 	
 	private String getAttachmentPath() {

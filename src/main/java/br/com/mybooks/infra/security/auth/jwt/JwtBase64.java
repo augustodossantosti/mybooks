@@ -43,7 +43,7 @@ public class JwtBase64 {
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException | SignatureException ex) {
             throw new InvalidJwtTokenException("Invalid JWT token: " + ex.getMessage());
         } catch (ExpiredJwtException expiredEx) {
-            throw new JwtExpiredTokenException(this, "JWT Token expired: " +  expiredEx.getMessage());
+            throw new JwtExpiredTokenException(this, "JWT expired: " +  expiredEx.getMessage());
         }
     }
 

@@ -24,7 +24,9 @@ import br.com.mybooks.domain.library.exceptions.LibraryException;
 import br.com.mybooks.domain.library.exceptions.NoOperationsException;
 import br.com.mybooks.domain.library.exceptions.StorageFileNotFoundException;
 import br.com.mybooks.domain.shelf.Shelf;
+import br.com.mybooks.domain.users.User;
 import br.com.mybooks.infra.services.StorageService;
+import br.com.mybooks.infra.services.UserService;
 
 /**
  * A classe <code>LibraryFacade</code> interliga as diferentes 
@@ -41,6 +43,9 @@ public class LibraryFacade {
 	
 	@Autowired
 	private StorageService storageService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@PreAuthorize("isFullyAuthenticated()")
 	public Shelf registerShelf(final Category category) throws LibraryException {
@@ -99,6 +104,11 @@ public class LibraryFacade {
 	@PreAuthorize("isFullyAuthenticated()")
 	public List<Event> report() throws NoOperationsException {
 		return library.report();
+	}
+	
+	@PreAuthorize("isFullyAuthenticated()")
+	public User registerUser(final User user) {
+		return userService.registerUser(user);
 	}
 	
 }

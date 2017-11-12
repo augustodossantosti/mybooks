@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Lob;
 
 /**
  * A classe <code>PersonalInformation</code> contém todas as 
@@ -31,6 +32,10 @@ public class PersonalInformation {
 	
 	@Column(name = "ID_NUMBER")
 	private String idNumber;
+	
+	@Lob
+	@Column(name = "PROFILE_PICTURE")
+	private String profilePicture;
 	
 	@Column(name = "CELL_PHONE")
 	private String cellPhone;
@@ -66,6 +71,14 @@ public class PersonalInformation {
 
 	public void setIdNumber(String idNumber) {
 		this.idNumber = idNumber;
+	}
+	
+	public void setProfilePicture(final String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
+	
+	public String getProfilePicture() {
+		return profilePicture;
 	}
 
 	public String getCellPhone() {

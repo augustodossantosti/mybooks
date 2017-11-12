@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.mybooks.infra.services.UserService;
+import br.com.mybooks.applayer.LibraryFacade;
 import br.com.mybooks.restapi.wrapper.UserWrapper;
 
 /**
@@ -24,15 +24,15 @@ import br.com.mybooks.restapi.wrapper.UserWrapper;
  * @version 1.0 12 de mai de 2017
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/users")
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private LibraryFacade libraryFacade;
 	
-	@RequestMapping(path = "users", method = RequestMethod.POST)
+	@RequestMapping(path = "/signup", method = RequestMethod.POST)
 	public @ResponseBody void registerUser(@RequestBody UserWrapper userWrapper) {
-		userService.registerUser(userWrapper.getUser());
+		libraryFacade.registerUser(userWrapper.getUser());
 	}
 
 }
