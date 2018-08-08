@@ -2,7 +2,8 @@
 /.vscode/
 /target/
 /.apt-generated/
+/.idea/
 /.project
 /.classpath
 /.factorypath
-
+/*.iml

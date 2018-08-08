@@ -40,7 +40,7 @@ public class ShelfController {
 	
 	@GetMapping(path = "/{category}")
 	public ShelfWrapper findShelf(@PathVariable(name = "category") final Category category) {
-		return ShelfWrapper.toWrapper(libraryFacade.searchShelfByCategory(category));
+		return ShelfWrapper.of(libraryFacade.searchShelfByCategory(category));
 	}
 	
 	@PostMapping
@@ -56,7 +56,7 @@ public class ShelfController {
 	
 	@GetMapping
 	public List<ShelfWrapper> listShelfs() {
-		return ShelfWrapper.toWrapperList(libraryFacade.listAllShelfs());
+		return ShelfWrapper.listOf(libraryFacade.listAllShelfs());
 	}
 	
 }

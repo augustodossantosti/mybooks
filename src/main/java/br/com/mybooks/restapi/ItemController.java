@@ -55,7 +55,7 @@ public class ItemController {
 	
 	@GetMapping(path = "/{id}")
 	public ItemWrapper findItem(@PathVariable(name = "id") final Long id) {
-		return ItemWrapper.toWrapper(libraryFacade.searchItemById(id));
+		return ItemWrapper.of(libraryFacade.searchItemById(id));
 	}
 	
 	@ResponseStatus(code = HttpStatus.CREATED)
@@ -70,14 +70,14 @@ public class ItemController {
 	public ItemWrapper updateItem(@RequestPart("item") final ItemWrapper wrapper, 
 			@RequestPart("file") final MultipartFile file, @RequestPart("cover") final MultipartFile coverFile) throws IOException {
 		
-		return ItemWrapper.toWrapper(libraryFacade.updateItem(wrapper.getItem(), file, coverFile));
+		return ItemWrapper.of(libraryFacade.updateItem(wrapper.getItem(), file, coverFile));
 	}
 	
 	@GetMapping
 	public List<ItemWrapper> listAllItems(@RequestParam(name = "category", required = false) final Category category, 
 			@RequestParam(name = "type", required = false) final Type type) throws LibraryException {
 		
-		return ItemWrapper.toWrapperList(libraryFacade.listAllItems(category));
+		return ItemWrapper.listOf(libraryFacade.listAllItems(category));
 	}
 	
 	@PostMapping(path = "/file")
@@ -102,7 +102,7 @@ public class ItemController {
 	
 	@RequestMapping(path= "/search", method = RequestMethod.POST)
 	public ItemWrapper searchItem(@RequestParam(name = "title") final String title) throws LibraryException {
-		return ItemWrapper.toWrapper(libraryFacade.searchItem(title));
+		return ItemWrapper.of(libraryFacade.searchItem(title));
 	}
 	
 	@GetMapping(path= "/report")

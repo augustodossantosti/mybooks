@@ -58,7 +58,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 	public void shouldRegisterItem() throws Exception {
 		
 		final Item magazine = itemFactory.createMagazineWithCategory(Category.TECNOLOGY);
-		final ItemWrapper magazineWrapper = ItemWrapper.toWrapper(magazine);
+		final ItemWrapper magazineWrapper = ItemWrapper.of(magazine);
 		final String magazineJson = serializeObject(magazineWrapper);
 		
 		final MvcResult result = performRESTPost("/items", jwt, magazineJson);
@@ -72,7 +72,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 	public void shouldFindARegisteredItem() throws Exception {
 		
 		final Item book = itemFactory.createBookWithCategory(Category.SCI_FI);
-		final ItemWrapper bookWrapper = ItemWrapper.toWrapper(book);
+		final ItemWrapper bookWrapper = ItemWrapper.of(book);
 		final String bookJson = serializeObject(bookWrapper);
 		performRESTPost("/items", jwt, bookJson);
 		
@@ -102,7 +102,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 	public void shouldGenerateReport() throws Exception {
 		
 		final Item book = itemFactory.createMangaWithCategory(Category.ROMANCE);
-		final ItemWrapper bookWrapper = ItemWrapper.toWrapper(book);
+		final ItemWrapper bookWrapper = ItemWrapper.of(book);
 		final String bookJson = serializeObject(bookWrapper);
 		performRESTPost("/items", jwt, bookJson);
 		

@@ -34,11 +34,11 @@ public class ItemWrapper {
 		this.item = item;
 	}
 	
-	public static ItemWrapper toWrapper(final Item item) {
+	public static ItemWrapper of(final Item item) {
 		return new ItemWrapper(item);
 	}
 	
-	public static List<ItemWrapper> toWrapperList(final List<Item> items) {
+	public static List<ItemWrapper> listOf(final List<Item> items) {
 		return items.stream().map(ItemWrapper::new).collect(Collectors.toList());
 	}
 	

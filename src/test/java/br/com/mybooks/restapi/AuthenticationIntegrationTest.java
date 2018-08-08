@@ -144,7 +144,7 @@ public class AuthenticationIntegrationTest extends AbstractIntegrationTest {
 	public void shouldNotPerformDomainOperationWithAInvalidAuthorizationToken() throws Exception {
 		
 		final Item book = itemFactory.createBookWithCategory(Category.HYSTORY);
-		final ItemWrapper bookWrapper = ItemWrapper.toWrapper(book);
+		final ItemWrapper bookWrapper = ItemWrapper.of(book);
 		final String bookJson = serializeObject(bookWrapper);
 		
 		final String jwt = "Invalid Token";
@@ -163,7 +163,7 @@ public class AuthenticationIntegrationTest extends AbstractIntegrationTest {
 	public void shouldNotPerformDomainOperationWithAExpiredAuthorizationToken() throws Exception {
 		
 		final Item book = itemFactory.createBookWithCategory(Category.HYSTORY);
-		final ItemWrapper bookWrapper = ItemWrapper.toWrapper(book);
+		final ItemWrapper bookWrapper = ItemWrapper.of(book);
 		final String bookJson = serializeObject(bookWrapper);
 		
 		final String expiredJwt = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsInNjb3BlcyI6WyJST0xFX"

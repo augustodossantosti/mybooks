@@ -59,7 +59,7 @@ public class ItemDeserializer extends JsonDeserializer<ItemWrapper> {
 				.type(type)
 				.build();
 		
-		return ItemWrapper.toWrapper(item);
+		return ItemWrapper.of(item);
 	}
 
 }

@@ -31,11 +31,11 @@ public class ShelfWrapper {
 		this.shelf = shelf;
 	}
 	
-	public static ShelfWrapper toWrapper(final Shelf shelf) {
+	public static ShelfWrapper of(final Shelf shelf) {
 		return new ShelfWrapper(shelf);
 	}
 	
-	public static List<ShelfWrapper> toWrapperList(final List<Shelf> shelfs) {
+	public static List<ShelfWrapper> listOf(final List<Shelf> shelfs) {
 		return shelfs.stream().map(ShelfWrapper::new).collect(Collectors.toList());
 	}
 	
