@@ -32,9 +32,13 @@ import br.com.mybooks.infra.services.LibraryService;
  */
 @Component
 public class Library {
-	
+
+	private final LibraryService libraryService;
+
 	@Autowired
-	private LibraryService libraryService;
+	public Library(final LibraryService libraryService) {
+		this.libraryService = libraryService;
+	}
 	
 	public Shelf registerShelf(final Category category) throws ShelfAlreadyRegisteredException {
 		if(shelfAlreadyExists(category)) {

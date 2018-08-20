@@ -179,7 +179,7 @@ public class AuthenticationIntegrationTest extends AbstractIntegrationTest {
 		final LibraryErrorResponse errorResponse = getAuthenticationErrorResponse(response);
 		
 		assertThat(status, is(401));
-		assertThat(errorResponse.getMessage(), startsWith("JWT Token expired: "));
+		assertThat(errorResponse.getMessage(), startsWith("JWT expired: "));
 	}
 	
 }

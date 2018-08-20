@@ -23,6 +23,10 @@ import br.com.mybooks.domain.items.Item;
 import br.com.mybooks.domain.items.ItemFactory;
 import br.com.mybooks.restapi.wrapper.ItemWrapper;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A classe <code>ItemControllerIntegrationTest</code> contém os
  * testes de integração para as operações com <code>Item</code>.
@@ -60,8 +64,11 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 		final Item magazine = itemFactory.createMagazineWithCategory(Category.TECNOLOGY);
 		final ItemWrapper magazineWrapper = ItemWrapper.of(magazine);
 		final String magazineJson = serializeObject(magazineWrapper);
-		
-		final MvcResult result = performRESTPost("/items", jwt, magazineJson);
+
+		final List<File> files = Arrays.asList(new File(getClass().getResource("/cover.jpg").toURI()),
+				new File(getClass().getResource("/file.pdf").toURI()));
+
+		final MvcResult result = performRESTUpload("/items", jwt, magazineJson, files);
 		final MockHttpServletResponse response = result.getResponse();
 		final int status = response.getStatus();
 		
@@ -70,18 +77,22 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void shouldFindARegisteredItem() throws Exception {
-		
+
 		final Item book = itemFactory.createBookWithCategory(Category.SCI_FI);
 		final ItemWrapper bookWrapper = ItemWrapper.of(book);
 		final String bookJson = serializeObject(bookWrapper);
-		performRESTPost("/items", jwt, bookJson);
-		
+
+		final List<File> files = Arrays.asList(new File(getClass().getResource("/cover.jpg").toURI()),
+				new File(getClass().getResource("/file.pdf").toURI()));
+
+		performRESTUpload("/items", jwt, bookJson, files);
+
 		final String itemTitle = "Book for test";
-		final MvcResult result = performRESTPost("/search?title=" + itemTitle, jwt, "");
+		final MvcResult result = performRESTPost("/items/search?title=" + itemTitle, jwt, "");
 		final MockHttpServletResponse response = result.getResponse();
 		final String content = response.getContentAsString();
 		final int status = response.getStatus();
-		
+
 		assertThat(status, is(200));
 		assertThat(content, is(bookJson));
 	}
@@ -104,7 +115,11 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 		final Item book = itemFactory.createMangaWithCategory(Category.ROMANCE);
 		final ItemWrapper bookWrapper = ItemWrapper.of(book);
 		final String bookJson = serializeObject(bookWrapper);
-		performRESTPost("/items", jwt, bookJson);
+
+		final List<File> files = Arrays.asList(new File(getClass().getResource("/cover.jpg").toURI()),
+				new File(getClass().getResource("/file.pdf").toURI()));
+
+		performRESTUpload("/items", jwt, bookJson, files);
 		
 		final MvcResult result = performRESTGet("/api/report", jwt);
 		final MockHttpServletResponse response = result.getResponse();

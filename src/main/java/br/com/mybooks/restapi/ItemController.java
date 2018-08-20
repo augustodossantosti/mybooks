@@ -61,7 +61,8 @@ public class ItemController {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public void registerItem(@RequestPart("item") final ItemWrapper wrapper, 
-			@RequestPart("file") final MultipartFile file, @RequestPart("cover") final MultipartFile coverFile) throws LibraryException, IOException  {
+			@RequestPart("file") final MultipartFile file, @RequestPart("cover") final MultipartFile coverFile)
+			throws LibraryException, IOException  {
 		
 		libraryFacade.registerItem(wrapper.getItem(), file, coverFile);
 	}
