@@ -35,7 +35,7 @@ import java.util.List;
  * @version 1.0 19 de abr de 2017
  */
 @RunWith(SpringRunner.class)
-public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
+public final class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 	
 	@Autowired
 	private ItemFactory itemFactory;
@@ -87,8 +87,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 
 		performRESTUpload("/items", jwt, bookJson, files);
 
-		final String itemTitle = "Book for test";
-		final MvcResult result = performRESTPost("/items/search?title=" + itemTitle, jwt, "");
+		final MvcResult result = performRESTGet("/items/search?title=" + book.getTitle(), jwt);
 		final MockHttpServletResponse response = result.getResponse();
 		final String content = response.getContentAsString();
 		final int status = response.getStatus();
@@ -121,7 +120,7 @@ public class ItemControllerIntegrationTest extends AbstractIntegrationTest {
 
 		performRESTUpload("/items", jwt, bookJson, files);
 		
-		final MvcResult result = performRESTGet("/api/report", jwt);
+		final MvcResult result = performRESTGet("/items/report", jwt);
 		final MockHttpServletResponse response = result.getResponse();
 		final int status = response.getStatus();
 		assertThat(status, is(200));

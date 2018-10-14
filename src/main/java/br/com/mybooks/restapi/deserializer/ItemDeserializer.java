@@ -27,17 +27,16 @@ import br.com.mybooks.restapi.wrapper.ItemWrapper;
  * @author Augusto dos Santos
  * @version 1.0 11 de out de 2016
  */
-public class ItemDeserializer extends JsonDeserializer<ItemWrapper> {
+public final class ItemDeserializer extends JsonDeserializer<ItemWrapper> {
 	
-	private ItemBuilder itemBuilder;
+	private final ItemBuilder itemBuilder;
 	
 	public ItemDeserializer() {
 		itemBuilder = new ItemBuilder();
 	}
 
 	@Override
-	public ItemWrapper deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-			throws IOException, JsonProcessingException {
+	public ItemWrapper deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
 		
 		final JsonNode jsonNode = jsonParser.readValueAsTree();
 		

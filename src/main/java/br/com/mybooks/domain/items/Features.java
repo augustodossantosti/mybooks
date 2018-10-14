@@ -25,7 +25,7 @@ public class Features {
 	@Column(name = "TITLE")
 	private String title;
 	@Column(name = "EDITION")
-	private int edition;
+	private Integer edition;
 	@Column(name = "PUBLISHER")
 	private String publisher;
 	@Lob
@@ -42,8 +42,8 @@ public class Features {
 	
 	public Features() {}
 
-	public Features(final String title, final int edition, final String publisher, final String description, 
-			final Category category, final Type type, final String identification) {
+	public Features(final String title, final Integer edition, final String publisher, final String description,
+					final String identification, final Category category, final Type type) {
 		
 		this.title = title;
 		this.edition = edition;
@@ -62,7 +62,7 @@ public class Features {
 		this.title = title;
 	}
 	
-	public int getEdition() {
+	public Integer getEdition() {
 		return edition;
 	}
 	

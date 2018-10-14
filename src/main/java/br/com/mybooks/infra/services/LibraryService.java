@@ -17,9 +17,7 @@ import br.com.mybooks.domain.items.Item;
 import br.com.mybooks.domain.library.events.Event;
 import br.com.mybooks.domain.library.events.EventType;
 import br.com.mybooks.domain.library.exceptions.LibraryException;
-import br.com.mybooks.domain.shelf.Shelf;
 import br.com.mybooks.infra.persistence.ItemRepository;
-import br.com.mybooks.infra.persistence.ShelfRepository;
 
 /**
  * A classe <code>LibraryService</code> contém todos os serviços
@@ -30,51 +28,23 @@ import br.com.mybooks.infra.persistence.ShelfRepository;
  */
 @Service
 public class LibraryService {
-	
+
+	private final ItemRepository itemRepository;
+	private final EventsService eventsService;
+
 	@Autowired
-	private ShelfRepository shelfRepository;
-	
-	@Autowired
-	private ItemRepository itemRepository;
-	
-	@Autowired
-	private EventsService eventsService;
-	
-	public Shelf saveShelf(final Shelf shelf) {
-		return shelfRepository.save(shelf);
-	}
-	
-	public void removeShelfById(final Long id) {
-		shelfRepository.delete(id);
-	}
-	
-	public void removeShelfByCategory(final Category category) {
-		shelfRepository.deleteByCategory(category);
-	}
-	
-	public boolean existsShelfByCategory(final Category category) {
-		return shelfRepository.existsByCategory(category);
-	}
-	
-	public Shelf findShelfById(final Long id) {
-		return shelfRepository.findById(id);
-	}
-	
-	public Shelf findShelfByCategory(final Category category) {
-		return shelfRepository.findByCategory(category);
-	}
-	
-	public List<Shelf> findAllShelfs() {
-		final List<Shelf> shelfs = new ArrayList<>();
-		shelfRepository.findAll().forEach(shelfs::add);
-		return shelfs;
+	public LibraryService(final ItemRepository itemRepository, final EventsService eventsService) {
+		this.itemRepository = itemRepository;
+		this.eventsService = eventsService;
 	}
 	
 	public Item saveItem(final Item item) {
+		registerEvent(EventType.REGISTERED_ITEM, item);
 		return itemRepository.save(item);
 	}
 	
 	public void deleteItem(final Item item) {
+		registerEvent(EventType.REMOVED_ITEM, item);
 		itemRepository.delete(item);
 	}
 	
@@ -103,17 +73,17 @@ public class LibraryService {
 		itemRepository.findAll().forEach(items::add);
 		return items;
 	}
-	
-	public Event registerEvent(final EventType type, final Item item) {
-		return eventsService.registerEvent(type, item);
-	}
-	
+
 	public Event getRegisterItemEvent(final String title) throws LibraryException {
 		return eventsService.getRegisterItemEvent(title);
 	}
 	
 	public List<Event> getAllEvents() {
 		return eventsService.getAllEvents();
+	}
+
+	private void registerEvent(final EventType type, final Item item) {
+		eventsService.registerEvent(type, item);
 	}
 	
 }

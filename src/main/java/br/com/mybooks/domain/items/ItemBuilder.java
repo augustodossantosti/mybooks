@@ -17,7 +17,7 @@ public class ItemBuilder {
 	private Item item;
 	
 	public ItemBuilder createItem() {
-		item = new Item(new Features());
+		item = new Item();
 		return this;
 	}
 	

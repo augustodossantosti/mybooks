@@ -93,7 +93,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 	 */
 	private void validateCredentials(final UserCredentialsFromRequest credentials) {
 		if(StringUtils.isBlank(credentials.getUserName()) || StringUtils.isBlank(credentials.getPassword())) {
-			throw new UniformedUserOrPasswordException("Uninformed user or password.");
+			throw new UniformedUserOrPasswordException("Uninformed username or password.");
 		}
 	}
 }

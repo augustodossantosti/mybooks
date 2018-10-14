@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -50,21 +49,30 @@ import br.com.mybooks.restapi.wrapper.ReportWrapper;
 @RequestMapping("/items")
 public class ItemController {
 
+	private final LibraryFacade libraryFacade;
+
 	@Autowired
-	private LibraryFacade libraryFacade;
+	public ItemController(final LibraryFacade libraryFacade) {
+		this.libraryFacade = libraryFacade;
+	}
+
+	@GetMapping
+	public List<ItemWrapper> listItems(@RequestParam(name = "category", required = false) final Category category) {
+		return ItemWrapper.listOf(libraryFacade.listItems(category));
+	}
 	
 	@GetMapping(path = "/{id}")
 	public ItemWrapper findItem(@PathVariable(name = "id") final Long id) {
 		return ItemWrapper.of(libraryFacade.searchItemById(id));
 	}
-	
+
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public void registerItem(@RequestPart("item") final ItemWrapper wrapper, 
+	public ItemWrapper registerItem(@RequestPart("item") final ItemWrapper wrapper,
 			@RequestPart("file") final MultipartFile file, @RequestPart("cover") final MultipartFile coverFile)
 			throws LibraryException, IOException  {
 		
-		libraryFacade.registerItem(wrapper.getItem(), file, coverFile);
+		return ItemWrapper.of(libraryFacade.registerItem(wrapper.getItem(), file, coverFile));
 	}
 	
 	@PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -73,16 +81,15 @@ public class ItemController {
 		
 		return ItemWrapper.of(libraryFacade.updateItem(wrapper.getItem(), file, coverFile));
 	}
-	
-	@GetMapping
-	public List<ItemWrapper> listAllItems(@RequestParam(name = "category", required = false) final Category category, 
-			@RequestParam(name = "type", required = false) final Type type) throws LibraryException {
-		
-		return ItemWrapper.listOf(libraryFacade.listAllItems(category));
+
+	@GetMapping(path= "/search")
+	public List<ItemWrapper> searchItem(@RequestParam(name = "title") final String title) throws LibraryException {
+		return ItemWrapper.listOf(libraryFacade.searchItem(title));
 	}
 	
 	@PostMapping(path = "/file")
-	public ResponseEntity<Resource> downloadItemFile(@RequestBody Map<String, String> filePath) throws StorageFileNotFoundException {
+	public ResponseEntity<Resource> downloadItemFile(@RequestBody Map<String, String> filePath)
+			throws StorageFileNotFoundException {
 		final Resource resource = libraryFacade.loadAsResource(filePath.get("filePath"));
 		return ResponseEntity
 				.ok()
@@ -99,11 +106,6 @@ public class ItemController {
 	@GetMapping(path = "/types")
 	public Map<String, Type> availableTypes() {
 		return Arrays.stream(Type.values()).collect(Collectors.toMap(Type::toString, type -> type));
-	}
-	
-	@RequestMapping(path= "/search", method = RequestMethod.POST)
-	public ItemWrapper searchItem(@RequestParam(name = "title") final String title) throws LibraryException {
-		return ItemWrapper.of(libraryFacade.searchItem(title));
 	}
 	
 	@GetMapping(path= "/report")

@@ -35,13 +35,13 @@ public final class Item implements Comparable<Item> {
 	@Embedded
 	private FileInfo fileInfo;
 	
-	@Column(name = "SHELF_ID")
-	private Long shelfId;
-	
-	public Item() {}
-	
-	public Item(final Features features) {
-		this.features = features;
+	public Item() {
+		features = new Features();
+	}
+
+	public Item(final String title, final Integer edition, final String publisher, final String description,
+				final String identification, final Category category, final Type type) {
+		features = new Features(title, edition, publisher, description, identification, category, type);
 	}
 	
 	public Long getId() {
@@ -53,23 +53,23 @@ public final class Item implements Comparable<Item> {
 	}
 	
 	public String getTitle() {
-		return features.getTitle();
+		return features != null ? features.getTitle() : null;
 	}
 	
 	public void setTitle(final String title) {
 		features.setTitle(title);
 	}
 	
-	public int getEdition() {
-		return features.getEdition();
+	public Integer getEdition() {
+		return features != null ? features.getEdition() : null;
 	}
 	
-	public void setEdition(final int edition) {
+	public void setEdition(final Integer edition) {
 		features.setEdition(edition);
 	}
 	
 	public String getPublisher() {
-		return features.getPublisher();
+		return features != null ? features.getPublisher() : null;
 	}
 	
 	public void setPublisher(final String publisher) {
@@ -77,7 +77,7 @@ public final class Item implements Comparable<Item> {
 	}
 	
 	public String getDescription() {
-		return features.getDescription();
+		return features != null ? features.getDescription() : null;
 	}
 	
 	public void setDescription(final String description) {
@@ -85,7 +85,7 @@ public final class Item implements Comparable<Item> {
 	}
 	
 	public Category getCategory() {
-		return features.getCategory();
+		return features != null ? features.getCategory() : null;
 	}
 	
 	public void setCategory(final Category category) {
@@ -93,7 +93,7 @@ public final class Item implements Comparable<Item> {
 	}
 	
 	public Type getType() {
-		return features.getType();
+		return features != null ? features.getType() : null;
 	}
 	
 	public void setType(final Type type) {
@@ -101,7 +101,7 @@ public final class Item implements Comparable<Item> {
 	}
 	
 	public String getIdentification() {
-		return features.getIdentification();
+		return features != null ? features.getIdentification() : null;
 	}
 	
 	public void setIdentification(final String identification) {
@@ -128,10 +128,6 @@ public final class Item implements Comparable<Item> {
 		return fileInfo != null ? fileInfo.getCoverBase64() : null;
 	}
 	
-	public Long getShelfId() {
-		return shelfId;
-	}
-	
 	@Override
 	public int compareTo(Item o) {
 		return String.CASE_INSENSITIVE_ORDER.compare(this.getTitle(), o.getTitle());
@@ -147,19 +143,19 @@ public final class Item implements Comparable<Item> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Item other = (Item) obj;
 		if (features == null) {
-			if (other.features != null)
-				return false;
-		} else if (!features.equals(other.features))
-			return false;
-		return true;
+			return other.features == null;
+		} else return features.equals(other.features);
 	}
 
 	@Override

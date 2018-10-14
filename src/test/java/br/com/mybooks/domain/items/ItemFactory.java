@@ -30,9 +30,8 @@ public class ItemFactory {
 	 * Cria um novo livro com a categoria especificada.
 	 */
 	public Item createBookWithCategory(final Category category) {
-		item = new Item(new Features("Book for test", 1,"Test publisher", 
-				"Book for test.", category, Type.BOOK, "888-888"));
-		
+		item = new Item("Book for test", 1,"Test publisher", "Book for test.",
+				"888-888", category, Type.BOOK);
 		return item;
 	}
 	
@@ -40,9 +39,8 @@ public class ItemFactory {
 	 * Cria um novo manga com a categoria especificada.
 	 */
 	public Item createMangaWithCategory(final Category category) {
-		item = new Item(new Features("Manga for test", 1,"Test publisher", 
-				"Book for test.", category, Type.MANGA, "888-888"));
-		
+		item = new Item("Manga for test", 1,"Test publisher", "Book for test.",
+				"888-888", category, Type.MANGA);
 		return item;
 	}
 	
@@ -50,9 +48,8 @@ public class ItemFactory {
 	 * Cria uma nova revista com a categoria especificada.
 	 */
 	public Item createMagazineWithCategory(final Category category) {
-		item = new Item(new Features("Magazine for test", 1,"Test publisher", 
-				"Book for test.", category, Type.MAGAZINE, "888-888"));
-		
+		item = new Item("Magazine for test", 1,"Test publisher","Book for test.",
+				"888-888", category, Type.MAGAZINE);
 		return item;
 	}
 

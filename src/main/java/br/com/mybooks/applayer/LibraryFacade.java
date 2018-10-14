@@ -23,7 +23,6 @@ import br.com.mybooks.domain.library.events.Event;
 import br.com.mybooks.domain.library.exceptions.LibraryException;
 import br.com.mybooks.domain.library.exceptions.NoOperationsException;
 import br.com.mybooks.domain.library.exceptions.StorageFileNotFoundException;
-import br.com.mybooks.domain.shelf.Shelf;
 import br.com.mybooks.domain.users.User;
 import br.com.mybooks.infra.services.StorageService;
 import br.com.mybooks.infra.services.UserService;
@@ -37,41 +36,24 @@ import br.com.mybooks.infra.services.UserService;
  */
 @Component
 public class LibraryFacade {
-	
+
+	private final Library library;
+	private final StorageService storageService;
+	private final UserService userService;
+
 	@Autowired
-	private Library library;
-	
-	@Autowired
-	private StorageService storageService;
-	
-	@Autowired
-	private UserService userService;
-	
-	@PreAuthorize("isFullyAuthenticated()")
-	public Shelf registerShelf(final Category category) throws LibraryException {
-		return library.registerShelf(category);
+	public LibraryFacade(final Library library, final StorageService storageService, final UserService userService) {
+		this.library = library;
+		this.storageService = storageService;
+		this.userService = userService;
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
-	public void removeShelf(final Category category) {
-		library.removeShelf(category);
-	}
-	
-	@PreAuthorize("isFullyAuthenticated()")
-	public Shelf searchShelfByCategory(final Category category) {
-		return library.searchShelfByCategory(category);
-	}
-	
-	@PreAuthorize("isFullyAuthenticated()")
-	public List<Shelf> listAllShelfs() {
-		return library.listAllShelfs();
-	}
-	
-	@PreAuthorize("isFullyAuthenticated()")
-	public void registerItem(final Item item, final MultipartFile file, final MultipartFile cover) throws LibraryException, IOException {
+	public Item registerItem(final Item item, final MultipartFile file, final MultipartFile cover)
+			throws LibraryException, IOException {
 		final FileInfo fileInfo = storageService.store(file, cover);
 		item.setFileInfo(fileInfo);
-		library.registerItem(item);
+		return library.registerItem(item);
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
@@ -92,12 +74,12 @@ public class LibraryFacade {
 	}
 
 	@PreAuthorize("isFullyAuthenticated()")
-	public Item searchItem(final String title) throws LibraryException {
+	public List<Item> searchItem(final String title) throws LibraryException {
 		return library.searchItem(title);
 	}
 	
 	@PreAuthorize("isFullyAuthenticated()")
-	public List<Item> listAllItems(final Category category) {
+	public List<Item> listItems(final Category category) {
 		return category != null ? library.searchItemsByCategory(category) : library.listAllItems();
 	}
 	

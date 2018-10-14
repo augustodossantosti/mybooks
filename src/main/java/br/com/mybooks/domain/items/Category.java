@@ -24,7 +24,7 @@ public enum Category {
 	
 	private final String name;
 	
-	private Category(final String name) {
+	Category(final String name) {
 		this.name = name;
 	}
 	

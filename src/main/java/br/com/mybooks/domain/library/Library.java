@@ -18,14 +18,11 @@ import br.com.mybooks.domain.library.events.Event;
 import br.com.mybooks.domain.library.events.EventType;
 import br.com.mybooks.domain.library.exceptions.LibraryException;
 import br.com.mybooks.domain.library.exceptions.NoOperationsException;
-import br.com.mybooks.domain.library.exceptions.ShelfAlreadyRegisteredException;
-import br.com.mybooks.domain.shelf.Shelf;
 import br.com.mybooks.infra.services.LibraryService;
 
 /**
- * A classe <code>Library</code> centraliza as operações de
- * domínio relacionadas a manipulação de prateleiras e itens
- * gerenciáveis pela aplicação.
+ * A classe <code>Library</code> centraliza as operações de domínio
+ * relacionadas a manipulação de itens gerenciáveis pela aplicação.
  *
  * @author Augusto dos Santos
  * @version 1.0 13 de out de 2016
@@ -39,43 +36,9 @@ public class Library {
 	public Library(final LibraryService libraryService) {
 		this.libraryService = libraryService;
 	}
-	
-	public Shelf registerShelf(final Category category) throws ShelfAlreadyRegisteredException {
-		if(shelfAlreadyExists(category)) {
-			throw new ShelfAlreadyRegisteredException();
-		}
-		return libraryService.saveShelf(new Shelf(category));
-	}
-	
-	public void removeShelf(final Category category) {
-		if(shelfAlreadyExists(category)){
-			libraryService.removeShelfByCategory(category);
-		}
-	}
-	
-	public Shelf searchShelfById(final Long id) {
-		return libraryService.findShelfById(id);
-	}
-	
-	public Shelf searchShelfByCategory(final Category category) {
-		return libraryService.findShelfByCategory(category);
-	}
-	
-	public List<Shelf> listAllShelfs() {
-		final List<Shelf> shelfs = libraryService.findAllShelfs();
-		return Collections.unmodifiableList(shelfs);
-	}
 
-	public Item registerItem(final Item newItem) throws LibraryException {
-		final Category itemCategory = newItem.getCategory();
-		
-		final Shelf shelf = shelfAlreadyExists(itemCategory) ? 
-				libraryService.findShelfByCategory(itemCategory) : registerShelf(itemCategory);
-				
-		shelf.addNewItem(newItem);
+	public Item registerItem(final Item newItem) {
 		libraryService.saveItem(newItem);
-		libraryService.saveShelf(shelf);
-		libraryService.registerEvent(EventType.REGISTERED_ITEM, newItem);
 		return newItem;
 	}
 	
@@ -92,10 +55,10 @@ public class Library {
 		return libraryService.saveItem(original);
 	}
 	
-	public Item searchItem(final String title) throws LibraryException {
-		final Event registerEvent = libraryService.getRegisterItemEvent(title);
-		final Shelf shelf = libraryService.findShelfByCategory(registerEvent.getItemCategory());
-		return shelf.searchItem(title);
+	public List<Item> searchItem(final String title) throws LibraryException {
+		// TODO Verificar necessidade de checar se ocorreu evento de registro antes de buscar na base
+		//final Event registerEvent = libraryService.getRegisterItemEvent(title);
+		return libraryService.findItemByTitle(title);
 	}
 	
 	public Item searchItemById(final Long id) {
@@ -113,10 +76,6 @@ public class Library {
 	
 	public List<Event> report() throws NoOperationsException {
 		return libraryService.getAllEvents();
-	}
-	
-	private boolean shelfAlreadyExists(Category category) {
-		return libraryService.existsShelfByCategory(category);
 	}
 	
 }

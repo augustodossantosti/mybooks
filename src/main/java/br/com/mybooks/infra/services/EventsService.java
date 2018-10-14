@@ -31,11 +31,14 @@ import br.com.mybooks.domain.library.exceptions.NoDomainEventOfThisTypeException
  */
 @Service
 public class EventsService {
-	
-	@Autowired
-	private AuthenticationService authenticationService;
-	
+
+	private final AuthenticationService authenticationService;
 	private final List<Event> eventHistory = new ArrayList<>();
+
+	@Autowired
+	public EventsService(final AuthenticationService authenticationService) {
+		this.authenticationService = authenticationService;
+	}
 	
 	public Event registerEvent(final EventType type, final Item item) {
 		final Event event = new Event(new OperationContext(type, item, authenticationService.getAuthenticatedUser().getUsername()));

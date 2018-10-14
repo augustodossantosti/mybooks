@@ -13,8 +13,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.Lob;
 
 /**
- * A classe <code>FileInfo</code> encapsula as informações referentes 
- * ao arquivo associado a um determinado item.
+ * A classe <code>FileInfo</code> encapsula as informações referentes ao
+ * arquivo associado a um determinado item gerenciável pela aplicação.
  *
  * @author Augusto dos Santos
  * @version 1.0 11 de out de 2017

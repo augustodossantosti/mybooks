@@ -25,17 +25,14 @@ public class AuthenticationRequestVerifier {
 	private static final String XML_HTTP_REQUEST = "XMLHttpRequest";
     
     public static boolean isValidLoginRequest(final HttpServletRequest request) {
-        if(!HttpMethod.POST.name().equals(request.getMethod()) 
-        		|| !hasValidLoginHeaders(request)
-        		|| !request.getHeader(X_REQUESTED_WITH).equals(XML_HTTP_REQUEST)
-        		|| !request.getHeader(HttpHeaders.CONTENT_TYPE).contains(MediaType.APPLICATION_JSON_VALUE)) {
-			return false;
-		}
-        return true;
-    }
+		return HttpMethod.POST.name().equals(request.getMethod())
+				&& hasValidLoginHeaders(request)
+				&& request.getHeader(X_REQUESTED_WITH).equals(XML_HTTP_REQUEST)
+				&& request.getHeader(HttpHeaders.CONTENT_TYPE).contains(MediaType.APPLICATION_JSON_VALUE);
+	}
     
     public static boolean isValidJwtRequest(final HttpServletRequest request) {
-    	return request.getHeader(HttpHeaders.AUTHORIZATION) != null ? true : false;
+    	return request.getHeader(HttpHeaders.AUTHORIZATION) != null;
     }
 
     private static boolean hasValidLoginHeaders(final HttpServletRequest request) {
